@@ -1,0 +1,33 @@
+{
+	"name" : "zmajche34/wpnonce",
+        "description": "This class is intended for using wordpress nonce functions in object oriented way.",
+	"keywords": ["wordpress nonce", "wordpress", "nonce", "csrf"],
+	"homepage": "https://github.com/Zmajche34/WPNonce",
+	"type" : "library",
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/Zmajche34/WPNonce"
+		}
+	],
+	"authors": [
+		{
+			"name": "Marko Novakovic",
+			"email": "atisha34@gmail.com",
+			"homepage": "https://github.com/Zmajche34",
+			"role": "Software Developer/Architect"
+		}
+	],
+	"require": {
+		"php": ">=7.0.0"
+	},
+	"require-dev": {
+		"brain/monkey":    "~1.4",
+		"phpunit/phpunit": "~4.8"
+	},
+	"autoload": {
+		"psr-4": {
+			"Zmajche34\\WPNonce\\": "src/Zmajche34/WPNonce"
+		}
+	}
+}
