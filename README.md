@@ -32,7 +32,7 @@ This package can be tested using composer.
 ```sh
 $ cd WPNonce
 $ composer install
-$ phpunit
+$ vendor/bin/phpunit -c phpunit.xml.dist
 ```
 
 # Development
