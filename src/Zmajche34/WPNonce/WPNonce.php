@@ -111,7 +111,7 @@ class WPNonce implements IWPNonce {
 	 **/
 	public function set_lifetime( int $lifetime ) {
 		$this->lifetime = $lifetime;
-		add_filter( 'nonce_life', array( $this, 'nonce_life' ) );
+		add_filter( 'nonce_life', array( $this, 'get_lifetime' ) );
 	}
 
 	/**

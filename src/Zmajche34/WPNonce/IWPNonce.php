@@ -14,7 +14,7 @@ namespace Zmajche34\WPNonce;
  * @package zmajche34-wpnonce
  */
 
-interface WPNonceInterface {
+interface IWPNonce {
 
 	/**
 	 * Set the action
@@ -83,34 +83,6 @@ interface WPNonceInterface {
 	 * Get the URL
 	 *
 	 * @return string The URL
-	 **/
-	public function get_field();
-
-	/**
-	 * Set the URL
-	 *
-	 * @param string $url The URL
-	 **/
-	public function set_url( string $url );
-
-	/**
-	 * Get the URL
-	 *
-	 * @return string The URL
-	 **/
-	public function get_url();
-
-	/**
-	 * Set the field
-	 *
-	 * @param  string $field   The field
-	 **/
-	public function set_field( string $field );
-
-	/**
-	 * Get the field
-	 *
-	 * @return string The field
 	 **/
 	public function get_field();
 

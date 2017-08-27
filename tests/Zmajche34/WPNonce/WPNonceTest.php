@@ -52,7 +52,7 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		parent::setUp();
 		Monkey::setUpWP();
 		$this->action   = 'action';
-		$this->request  = 'request';
+		$this->request_name  = 'request';
 	}
 
 	/**
@@ -71,14 +71,14 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		Filters::expectAdded( 'nonce_life' )->once();
 		$this->nonce_object = new WPNonce(
 			$this->action,
-			$this->request,
+			$this->request_name,
 			$this->lifetime
 		);
 
 		self::assertSame( $this->nonce_object->get_action(), $this->action );
 		self::assertSame( $this->nonce_object->get_request_name(), $this->request_name );
 		self::assertSame( $this->nonce_object->get_lifetime(), $this->lifetime );
-		self::assertSame( $this->nonce_object->nonce_life( DAY_IN_SECONDS ), $this->lifetime );
+		self::assertSame( $this->nonce_object->get_lifetime( DAY_IN_SECONDS ), $this->lifetime );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		Filters::expectAdded( 'nonce_life' )->never();
 		$this->nonce_object = new WPNonce(
 			$this->action,
-			$this->request,
+			$this->request_name,
 			$this->lifetime
 		);
 	}
@@ -103,7 +103,7 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		$this->lifetime = DAY_IN_SECONDS;
 		$this->nonce_object = new WPNonce(
 			$this->action,
-			$this->request,
+			$this->request_name,
 			$this->lifetime
 		);
 		$nonce = $this->nonce_object->create();
@@ -129,13 +129,13 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		$this->lifetime = DAY_IN_SECONDS;
 		$this->nonce_object = new WPNonce(
 			$this->action,
-			$this->request,
+			$this->request_name,
 			$this->lifetime
 		);
 		$field = $this->nonce_object->create_field();
-		self::assertSame( $field, $this->action . $this->request );
+		self::assertSame( $field, $this->action . $this->request_name );
 		$field = $this->nonce_object->create_field( true );
-		self::assertSame( $field, $this->action . $this->request . 'referer' );
+		self::assertSame( $field, $this->action . $this->request_name . 'referer' );
 	}
 
 	/**
@@ -152,14 +152,13 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		$this->lifetime = DAY_IN_SECONDS;
 		$this->nonce_object = new WPNonce(
 			$this->action,
-			$this->request,
+			$this->request_name,
 			$this->lifetime
 		);
 		$url = 'http://example.com/';
 		$url_with_nonce = $this->nonce_object->create_url( $url );
-		self::assertSame( $url_with_nonce, $url . $this->action . $this->request );
+		self::assertSame( $url_with_nonce, $url . $this->action . $this->request_name );
 		self::assertSame( $url_with_nonce, $this->nonce_object->get_url() );
-		self::assertSame( $this->nonce_object->set_url( 'http://www.newurl.com/' ), 'http://www.newurl.com/' );
 	}
 
 	/**
@@ -170,7 +169,7 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		Functions::when( 'wp_create_nonce' )->alias( 'sha1' );
 		// wp_verify_nonce is mocked by this function
 		Functions::expect( 'wp_verify_nonce' )->andReturnUsing( function ( $nonce, $action ) {
-			return sha1( $action ) === $nonce;
+			return sha1( $action ) === $nonce ? 1 : false;
 		} );
 		// mock wp_unslash is mocked by this function
 		Functions::expect( 'wp_unslash' )->andReturnUsing( function ( $string ) {
@@ -184,7 +183,7 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		$this->lifetime = DAY_IN_SECONDS;
 		$this->nonce_object = new WPNonce(
 			$this->action,
-			$this->request,
+			$this->request_name,
 			$this->lifetime
 		);
 		$nonce = $this->nonce_object->create();
@@ -196,10 +195,10 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		self::assertFalse( $not_valid );
 
 		// Check auto-nonce assignment.
-		$_REQUEST[ $this->request ] = $nonce;
+		$_REQUEST[ $this->request_name ] = $nonce;
 		$this->nonce_object = new WPNonce(
 			$this->action,
-			$this->request,
+			$this->request_name,
 			$this->lifetime
 		);
 		$valid = $this->nonce_object->verify();
@@ -214,7 +213,7 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		Functions::when( 'wp_create_nonce' )->alias( 'sha1' );
 		// wp_verify_nonce is mocked by this function
 		Functions::expect( 'wp_verify_nonce' )->andReturnUsing( function ( $nonce, $action ) {
-			return sha1( $action ) === $nonce;
+			return sha1( $action ) === $nonce ? 1 : false;
 		} );
 		// mock wp_unslash is mocked by this function
 		Functions::expect( 'wp_unslash' )->andReturnUsing( function ( $string ) {
@@ -228,7 +227,7 @@ class WPNonceTest extends \PHPUnit_Framework_TestCase {
 		$this->lifetime = DAY_IN_SECONDS;
 		$this->nonce_object = new WPNonce(
 			$this->action,
-			$this->request,
+			$this->request_name,
 			$this->lifetime
 		);
 		$nonce = $this->nonce_object->create();
