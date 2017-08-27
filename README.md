@@ -32,7 +32,7 @@ This package can be tested using composer.
 ```sh
 $ cd WPNonce
 $ composer install
-$ composer run test
+$ phpunit
 ```
 
 # Development

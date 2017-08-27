@@ -12,7 +12,7 @@
     </logging>
     <testsuites>
         <testsuite name="BasicTests">
-            <directory>./tests/src/Zmajche34/WPNonce/</directory>
+            <directory>./test/src/Zmajche34/WPNonce/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
