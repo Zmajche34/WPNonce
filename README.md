@@ -27,7 +27,7 @@ It can be added to projects by adding this to composer.json:
 
 # Testing
 
-This package can be tested using composer.
+This package can be tested using phpunit.
 
 ```sh
 $ cd WPNonce

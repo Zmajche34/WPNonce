@@ -4,6 +4,7 @@
 	"keywords": ["wordpress nonce", "wordpress", "nonce", "csrf"],
 	"homepage": "https://github.com/Zmajche34/WPNonce",
 	"type" : "library",
+	"version": "1.0.0",
 	"repositories": [
 		{
 			"type": "vcs",
